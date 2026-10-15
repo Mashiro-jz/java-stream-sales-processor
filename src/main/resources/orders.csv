@@ -1,0 +1,4 @@
+id,customerName,category,price,date,isCompleted
+1,Jan Kowalski,Elektronika,3500.0,2026-10-15,true
+2,Anna Nowak,Książki,50.0,2026-10-15,true
+3,Piotr Wiśniewski,AGD,4000.0,2026-10-14,false

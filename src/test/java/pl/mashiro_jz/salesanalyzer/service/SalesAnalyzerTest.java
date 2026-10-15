@@ -52,9 +52,8 @@ public class SalesAnalyzerTest {
     void shouldReturnOnlyOrdersFromToday(){
         LocalDate today = LocalDate.now();
 
-        List<String> topOrders = salesAnalyzer.getUniqueCustomersByDate(today);
-
-        assertThat(topOrders)
+        List<String> uniqueCustomers = salesAnalyzer.getUniqueCustomersByDate(today);
+        assertThat(uniqueCustomers)
                 .hasSize(2)
                 .containsOnly("Jan","Anna");
     }
