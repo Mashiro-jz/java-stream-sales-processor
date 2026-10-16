@@ -1,6 +1,10 @@
 package pl.mashiro_jz.salesanalyzer.service;
 
+import org.springframework.stereotype.Service;
+import pl.mashiro_jz.salesanalyzer.io.CsvOrderReader;
 import pl.mashiro_jz.salesanalyzer.model.Order;
+
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -13,16 +17,18 @@ import java.util.stream.Collectors;
  *
  * @author Mashiro_jz
  */
+@Service
 public class SalesAnalyzer {
-    List<Order> orderList;
+    private final List<Order> orderList;
 
     /**
      * Tworzy instancję analizatora na podstawie przekazanej listy zamówień.
      *
-     * @param orderList lista zamówień, która będzie podlegała analizie
+     * @param reader, za pomocą którego aplikacja otrzymuje dane do analizy
      */
-    public SalesAnalyzer(List<Order> orderList) {
-        this.orderList = orderList;
+    public SalesAnalyzer(CsvOrderReader reader) {
+        InputStream inputStream = getClass().getResourceAsStream("/orders.csv");
+        this.orderList = reader.fetchOrdersFromCsvFile(inputStream);
     }
 
     /**

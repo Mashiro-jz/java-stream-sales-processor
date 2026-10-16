@@ -12,8 +12,21 @@
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>21</java.version>
     </properties>
+    <parent>
+        <!-- Dziedziczenie bazowych konfiguracji Spring Boota -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.4</version>
+    </parent>
         <dependencies>
+            <!-- Starter zawierający serwer Tomcat i narzędzia do REST API -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+            </dependency>
+
             <!-- JUnit 5 (Jupiter) do uruchamiania testów -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
