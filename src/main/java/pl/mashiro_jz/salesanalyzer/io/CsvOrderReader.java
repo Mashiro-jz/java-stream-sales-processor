@@ -7,7 +7,23 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Klasa narzędziowa odpowiedzialna za odczyt i parsowanie danych z plików CSV.
+ *
+ * @author Mashiro_jz
+ */
 public class CsvOrderReader {
+
+    /**
+     * Wczytuje i parsuje dane o zamówieniach ze wskazanego strumienia danych (w formacie CSV).
+     * <p>
+     * Metoda pomija pierwszy wiersz (nagłówki) i w przypadku napotkania błędów
+     * wejścia/wyjścia lub błędnego formatu danych, bezpiecznie zwraca pustą listę.
+     * </p>
+     *
+     * @param filename strumień wejściowy zawierający dane CSV (nie może być {@code null})
+     * @return lista przetworzonych obiektów typu {@link Order}, lub pusta lista w przypadku wystąpienia błędu
+     */
     public List<Order> fetchOrdersFromCsvFile(InputStream filename){
         List<Order> orders;
 
@@ -30,8 +46,17 @@ public class CsvOrderReader {
         }
         return orders;
     }
+
+    /**
+     * Parsuje pojedynczą linię tekstu w formacie CSV na obiekt zamówienia.
+     *
+     * @param line pojedynczy wiersz z pliku CSV zawierający dane rozdzielone przecinkami
+     * @return instancja klasy {@link Order} reprezentująca przetworzone dane
+     * @throws NumberFormatException jeśli format ceny jest nieprawidłowy
+     * @throws java.time.format.DateTimeParseException jeśli format daty jest nieprawidłowy
+     */
     private Order parseLine(String line){
         List<String> lineList = List.of(line.split(","));
-        return new Order(lineList.getFirst(),lineList.get(1), lineList.get(2), Double.parseDouble(lineList.get(3)), LocalDate.parse(lineList.get(4)), Boolean.parseBoolean(lineList.getLast()));
+        return new Order(lineList.getFirst(), lineList.get(1), lineList.get(2), Double.parseDouble(lineList.get(3)), LocalDate.parse(lineList.get(4)), Boolean.parseBoolean(lineList.getLast()));
     }
 }
