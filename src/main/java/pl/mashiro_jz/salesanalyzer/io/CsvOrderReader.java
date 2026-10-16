@@ -10,11 +10,22 @@ import java.util.stream.Stream;
 public class CsvOrderReader {
     public List<Order> fetchOrdersFromCsvFile(InputStream filename){
         List<Order> orders;
+
+        if(filename == null)
+            return List.of();
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(filename))){
             Stream<String> lines = reader.lines();
             orders = lines.skip(1).map(this::parseLine).toList();
         } catch (IOException e) {
-            System.out.println("Wystąpił błąd: " + e.getMessage());
+            System.out.println("Wystąpił błąd wprowadzania pliku: " + e.fillInStackTrace());
+            return List.of();
+        }
+        catch (RuntimeException e) {
+            System.out.println("Plik zawiera uszkodzone dane: " + e.fillInStackTrace());
+            return List.of();
+        } catch (Exception e) {
+            System.out.println("Wystąpił błąd:" + e.fillInStackTrace());
             return List.of();
         }
         return orders;
