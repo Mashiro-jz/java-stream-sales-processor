@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mashiro_jz.salesanalyzer.model.Order;
 import pl.mashiro_jz.salesanalyzer.service.SalesAnalyzer;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.time.LocalDate;
 
 import java.util.List;
 import java.util.Map;
@@ -37,9 +39,14 @@ public class SalesController {
         return analyzer.groupOrdersByCategory();
     }
 
+    // Dostępne pod: http://localhost:8080/api/sales/categories/revenue
     @GetMapping("/categories/revenue")
     public Map<String, Double> getRevenueByCategory(){
         return analyzer.calculateRevenuePerCategory();
     }
 
+    @GetMapping("/customers")
+    public List<String> getCustomers(@RequestParam("date") LocalDate date) {
+        return analyzer.getUniqueCustomersByDate(date);
+    }
 }
