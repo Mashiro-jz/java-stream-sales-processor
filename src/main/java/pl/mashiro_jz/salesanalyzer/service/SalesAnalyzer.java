@@ -1,8 +1,10 @@
 package pl.mashiro_jz.salesanalyzer.service;
 
 import org.springframework.stereotype.Service;
+import pl.mashiro_jz.salesanalyzer.entity.OrderEntity;
 import pl.mashiro_jz.salesanalyzer.io.CsvOrderReader;
 import pl.mashiro_jz.salesanalyzer.model.Order;
+import pl.mashiro_jz.salesanalyzer.repository.OrderRepository;
 
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -19,16 +21,25 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SalesAnalyzer {
-    private final List<Order> orderList;
+    private final OrderRepository orderRepository;
 
     /**
      * Tworzy instancję analizatora na podstawie przekazanej listy zamówień.
      *
-     * @param reader, za pomocą którego aplikacja otrzymuje dane do analizy
+     * @param orderRepository, za pomocą którego aplikacja otrzymuje dane do analizy
      */
-    public SalesAnalyzer(CsvOrderReader reader) {
-        InputStream inputStream = getClass().getResourceAsStream("/orders.csv");
-        this.orderList = reader.fetchOrdersFromCsvFile(inputStream);
+    public SalesAnalyzer(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    private Order toDto(OrderEntity entity){
+        return new Order(
+                entity.getCsvId(),
+                entity.getCustomerName(),
+                entity.getCategory(),
+                entity.getPrice(),
+                entity.getDate(),
+                entity.isCompleted());
     }
 
     /**
@@ -38,9 +49,9 @@ public class SalesAnalyzer {
      * @return suma przychodów ze zrealizowanych zamówień
      */
     public double calculateTotalRevenue(){
-        return orderList.stream()
-                .filter(Order::isCompleted)
-                .mapToDouble(Order::price)
+        return orderRepository.findByIsCompletedTrue().stream()
+                .filter(OrderEntity::isCompleted)
+                .mapToDouble(OrderEntity::getPrice)
                 .sum();
     }
 
@@ -51,10 +62,10 @@ public class SalesAnalyzer {
      * @return lista zawierająca maksymalnie 3 najdroższe obiekty {@link Order}, posortowane malejąco po cenie
      */
     public List<Order> getTop3MostExpensiveOrders(){
-        return orderList.stream()
-                .filter(Order::isCompleted)
-                .sorted(Comparator.comparing(Order::price).reversed())
+        return orderRepository.findByIsCompletedTrue().stream()
+                .sorted(Comparator.comparing(OrderEntity::getPrice).reversed())
                 .limit(3)
+                .map(this::toDto)
                 .toList();
     }
 
@@ -66,9 +77,9 @@ public class SalesAnalyzer {
      * @return lista unikalnych imion i nazwisk klientów
      */
     public List<String> getUniqueCustomersByDate(LocalDate date){
-        return orderList.stream()
-                .filter(order -> order.date().equals(date))
-                .map(Order::customerName)
+        return orderRepository.findByDate(date)
+                .stream()
+                .map(OrderEntity::getCustomerName)
                 .distinct() // usuwa duplikaty
                 .toList();
     }
@@ -80,10 +91,10 @@ public class SalesAnalyzer {
      * @return mapa, w której kluczem jest nazwa kategorii, a wartością lista przypisanych do niej zamówień
      */
     public Map<String, List<Order>> groupOrdersByCategory(){
-        return orderList.stream()
-                .collect(Collectors.groupingBy(
-                        Order::category
-                ));
+        return orderRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.groupingBy(Order::category));
     }
 
     /**
@@ -93,8 +104,9 @@ public class SalesAnalyzer {
      * @return mapa, w której kluczem jest nazwa kategorii, a wartością suma uzyskanych w niej przychodów
      */
     public Map<String, Double> calculateRevenuePerCategory(){
-        return orderList.stream()
-                .filter(Order::isCompleted)
+        return orderRepository.findByIsCompletedTrue()
+                .stream()
+                .map(this::toDto)
                 .collect(Collectors.groupingBy(
                         Order::category,
                         Collectors.summingDouble(Order::price)
