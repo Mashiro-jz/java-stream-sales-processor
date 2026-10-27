@@ -2,11 +2,9 @@ package pl.mashiro_jz.salesanalyzer.service;
 
 import org.springframework.stereotype.Service;
 import pl.mashiro_jz.salesanalyzer.entity.OrderEntity;
-import pl.mashiro_jz.salesanalyzer.io.CsvOrderReader;
-import pl.mashiro_jz.salesanalyzer.model.Order;
+import pl.mashiro_jz.salesanalyzer.dto.Order;
 import pl.mashiro_jz.salesanalyzer.repository.OrderRepository;
 
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;

@@ -1,7 +1,7 @@
 package pl.mashiro_jz.salesanalyzer.io;
 
 import org.junit.jupiter.api.Test;
-import pl.mashiro_jz.salesanalyzer.model.Order;
+import pl.mashiro_jz.salesanalyzer.dto.Order;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

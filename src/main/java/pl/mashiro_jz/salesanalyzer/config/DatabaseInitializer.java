@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.mashiro_jz.salesanalyzer.entity.OrderEntity;
 import pl.mashiro_jz.salesanalyzer.io.CsvOrderReader;
-import pl.mashiro_jz.salesanalyzer.model.Order;
+import pl.mashiro_jz.salesanalyzer.dto.Order;
 import pl.mashiro_jz.salesanalyzer.repository.OrderRepository;
 
 import java.io.InputStream;
@@ -21,7 +21,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if(orderRepository.count() == 0){
             InputStream inputStream = getClass().getResourceAsStream("/orders.csv");
             List<Order> csvOrders = csvReader.fetchOrdersFromCsvFile(inputStream);

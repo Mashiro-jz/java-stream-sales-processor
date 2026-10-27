@@ -27,14 +27,6 @@
                 <artifactId>spring-boot-starter-web</artifactId>
             </dependency>
 
-            <!-- JUnit 5 (Jupiter) do uruchamiania testów -->
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.10.0</version>
-                <scope>test</scope>
-            </dependency>
-
             <!-- AssertJ do czytelnego sprawdzania wyników -->
             <dependency>
                 <groupId>org.assertj</groupId>
@@ -60,6 +52,16 @@
                 <artifactId>h2</artifactId>
                 <scope>runtime</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy-agent</artifactId>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     <build>
         <plugins>
@@ -68,6 +70,17 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.3</version>
             </plugin>
+            <!-- Wtyczka do uruchamiania testów w Mavenie -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <!-- Wyłączenie blokady Mockito dla Javy 21+ -->
+                    <argLine>-XX:+EnableDynamicAgentLoading</argLine>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
 </project>

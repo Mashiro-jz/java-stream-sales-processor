@@ -1,4 +1,4 @@
-package pl.mashiro_jz.salesanalyzer.model;
+package pl.mashiro_jz.salesanalyzer.dto;
 
 import java.time.LocalDate;
 

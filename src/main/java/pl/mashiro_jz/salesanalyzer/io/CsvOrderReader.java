@@ -1,7 +1,7 @@
 package pl.mashiro_jz.salesanalyzer.io;
 
 import org.springframework.stereotype.Service;
-import pl.mashiro_jz.salesanalyzer.model.Order;
+import pl.mashiro_jz.salesanalyzer.dto.Order;
 
 import java.io.*;
 import java.time.LocalDate;
