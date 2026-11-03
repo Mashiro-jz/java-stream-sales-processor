@@ -65,18 +65,25 @@
         </dependencies>
     <build>
         <plugins>
+            <!-- 1. Wtyczka do dokumentacji -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.3</version>
             </plugin>
-            <!-- Wtyczka do uruchamiania testów w Mavenie -->
+
+            <!-- 2. TA WTYCZKA JEST KLUCZOWA DLA DOCKERA - tworzy Fat JAR -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- 3. Wtyczka do uruchamiania testów z odblokowanym Mockito -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <!-- Wyłączenie blokady Mockito dla Javy 21+ -->
                     <argLine>-XX:+EnableDynamicAgentLoading</argLine>
                 </configuration>
             </plugin>

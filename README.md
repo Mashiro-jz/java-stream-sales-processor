@@ -1,22 +1,41 @@
-# E-commerce Sales Analyzer
+# E-commerce Sales Analyzer (Spring Boot REST API)
 
 ## About the Project
-**E-commerce Sales Analyzer** is an analytical module developed in Java that simulates the business logic of a reporting system for an online store. The project is designed to process, filter, and aggregate large datasets of sales records.
+**E-commerce Sales Analyzer** is a robust analytical REST API built with Spring Boot that simulates the backend reporting system for an online store. Originally a console-based logic processor, it has evolved into a fully containerized web application with a persistence layer and interactive API documentation.
 
-The primary goal of this repository is to demonstrate advanced proficiency in the **Java Streams API**, **Lambda Expressions**, and **Collections**. It solves real-world business problems using a declarative and functional programming approach, entirely eliminating the need for traditional `for` or `while` loops.
+The project demonstrates a modern layered architecture, processing and aggregating large datasets of sales records using a declarative and functional programming approach (Java Streams API) directly over data retrieved from an embedded database.
 
-## Features
-The application processes a list of `Order` objects to generate the following analytical insights:
-* **Total Revenue Calculation** – Sums the value of all successfully completed orders.
-* **Key Transaction Identification** – Extracts the top 3 most expensive completed orders in the dataset.
-* **User Activity Analysis** – Generates a distinct list of unique customers who placed an order on a specific business day.
-* **Data Grouping** – Categorizes all orders based on their respective product departments (e.g., Electronics, Books).
-* **Financial Reporting by Category** – Calculates the total revenue generated within each specific product category.
+## Key Features
+- **RESTful API** – Exposes analytical endpoints to integrate with frontend dashboards or external reporting tools.
+- **In-Memory Persistence** – Automatically seeds an H2 database from a `.csv` file upon application startup using a custom `DatabaseInitializer`.
+- **Interactive Documentation** – Fully documented API endpoints using Swagger/OpenAPI 3.
+- **Dockerized** – Packaged as a lightweight, portable Docker container for instant deployment.
+- **Business Logic Highlights:**
+    - **Total Revenue Calculation:** Sums the value of all successfully completed orders.
+    - **Key Transaction Identification:** Extracts the top 3 most expensive completed orders.
+    - **User Activity Analysis:** Retrieves a distinct list of unique customers who placed an order on a specific date.
+    - **Data Grouping:** Categorizes all orders based on their respective product departments.
+    - **Financial Reporting by Category:** Calculates total revenue generated within each specific product category.
 
 ## Technology Stack
-* **Language:** Java (17 / 21)
-* **Paradigms:** Object-Oriented Programming (OOP), Functional Programming
-* **Core APIs:** Java Streams API, `java.util.function`, `java.util.stream.Collectors`
-* **Data Structures:** `List`, `Map`, `Set`
-* **Build Tool:** Maven
-* **Architecture:** Layered design separating the data model from the business logic.
+- **Language:** Java 24
+- **Framework:** Spring Boot 3.x (Spring Web, Spring Data JPA)
+- **Database:** H2 (In-Memory)
+- **Documentation:** Swagger / OpenAPI (`springdoc-openapi`)
+- **Containerization:** Docker
+- **Testing:** JUnit 5, Mockito, MockMvc (Integration Testing), AssertJ
+- **Build Tool:** Maven
+
+## API Endpoints
+Once the application is running, the following endpoints are available under the `/api/sales` path:
+- `GET /revenue` - Returns total revenue for completed orders.
+- `GET /top-orders` - Returns the top 3 most expensive completed orders.
+- `GET /categories` - Returns a map grouping all orders by product category.
+- `GET /categories/revenue` - Returns total revenue grouped by category.
+- `GET /customers?date=YYYY-MM-DD` - Returns unique customers for a given date.
+
+## How to Run the Application
+Just ensure Docker Desktop is running.
+1. Build the image:
+   ```bash
+   docker build -t sales-analyzer .
