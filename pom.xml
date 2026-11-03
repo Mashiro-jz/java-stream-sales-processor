@@ -46,10 +46,10 @@
                 <version>2.5.0</version>
             </dependency>
 
-            <!-- Baza danych H2 -->
+            <!-- Baza danych PostGresql -->
             <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
                 <scope>runtime</scope>
             </dependency>
             <dependency>

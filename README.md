@@ -39,3 +39,11 @@ Just ensure Docker Desktop is running.
 1. Build the image:
    ```bash
    docker build -t sales-analyzer .
+   ```
+2. Run the container:
+   ```
+   docker run -p 8080:8080 sales-analyzer
+   ```
+
+## Swagger UI Documentation
+Once the server is up and running (either via Docker or Maven), you can explore and test the endpoints interactively by visiting:http://localhost:8080/swagger-ui.html
