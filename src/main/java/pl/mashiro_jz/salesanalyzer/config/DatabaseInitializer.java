@@ -38,7 +38,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                     .toList();
 
             orderRepository.saveAll(entitiesToSave);
-            System.out.println("Załadowano " + entitiesToSave.size() + " zamówień do bazy H2!");
+            System.out.println("Załadowano " + entitiesToSave.size() + " zamówień do bazy PostgreSQL!");
         }
     }
 }

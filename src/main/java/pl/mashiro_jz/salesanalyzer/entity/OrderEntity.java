@@ -23,6 +23,17 @@ public class OrderEntity {
 
     private boolean isCompleted;
 
+    @Column(name = "customer_email")
+    private String customerEmail;
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
     // Hibernate wymaga pustego konstruktora
     public OrderEntity() {}
 
